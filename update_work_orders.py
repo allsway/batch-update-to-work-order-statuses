@@ -6,41 +6,41 @@ import configparser
 import xml.etree.ElementTree as ET
 
 def get_key():
-	return config.get('Params', 'apikey')
+    return config.get('Params', 'apikey')
 
 def get_url():
-	return config.get('Params','baseurl')
+    return config.get('Params','baseurl')
 
 def get_library():
-	return config.get('Params','library')
+    return config.get('Params','library')
 
 def get_circdesk():
-	return config.get('Params','circdesk')
+    return config.get('Params','circdesk')
 
 def get_wo_status():
-	return config.get('Params','workorder_status')
+    return config.get('Params','workorder_status')
 
 def get_wo():
-	return config.get('Params','workorder')
+    return config.get('Params','workorder')
 
 # Creates item API URL
 def createurl(row):
-	bib_id = row[0]
-	holding_id = row[1]
-	item_id = row[2]
-	return '/almaws/v1/bibs/' + bib_id + '/holdings/'+ holding_id +'/items/' + item_id;
+    bib_id = row[0]
+    holding_id = row[1]
+    item_id = row[2]
+    return '/almaws/v1/bibs/' + bib_id + '/holdings/'+ holding_id +'/items/' + item_id;
 
 # Creates URL query parameters
 def make_query():
-	query = '?op=scan' + '&library=' + get_library() + '&circ_desk=' + get_circdesk()
-	query =  query + '&work_order_type='+ get_wo() + '&status=' + get_wo_status()
-	return query
+    query = '?op=scan' + '&library=' + get_library() + '&circ_desk=' + get_circdesk()
+    query =  query + '&work_order_type='+ get_wo() + '&status=' + get_wo_status()
+    return query
 
 # Reads in file of physical items, as exported from Alma
 f = open(items_file, 'rt')
 try:
     reader = csv.reader(f)
-    next(reader)#skip header line
+    next(reader) #skip header line
     for row in reader:
     	if row[0] != 'end-of-file':
     		apicall = createurl(row)
